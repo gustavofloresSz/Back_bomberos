@@ -1,5 +1,4 @@
-import { BaseEntity, Column, CreateDateColumn, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
-import { User } from "./user";
+import { BaseEntity, Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 import { Envio } from "./envio";
 
 
@@ -13,7 +12,6 @@ export class Archivo extends BaseEntity{
 
     @Column()
     name_original: string;
-
 
     @ManyToOne(() => Envio, (envio) => envio.archivos)
     envio: Envio;

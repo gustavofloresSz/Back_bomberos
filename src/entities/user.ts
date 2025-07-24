@@ -2,8 +2,6 @@ import { BaseEntity, BeforeInsert, Column, Entity, ManyToOne, OneToMany, Primary
 import {Seccion } from "./seccion"
 import bcrypt from 'bcrypt';
 import { Envio } from "./envio";
-import { Archivo } from "./archivo";
-
 
 @Entity()
 export class User extends BaseEntity{

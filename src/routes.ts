@@ -6,6 +6,9 @@ import { upload } from "./middlewares/upload";
 import { SeccionController } from "./controllers/seccion.controller";
 import { ArchivoController } from "./controllers/archivo.controller";
 import { AuthController } from "./controllers/auth.controller";
+import { ComentarioController } from "./controllers/comentario.controller";
+import { InventarioController } from "./controllers/inventario.controller";
+import { ControlOperativoController } from "./controllers/control_operativo.controller";
 
 export class AppRoutes {
     static get routes():Router{
@@ -87,6 +90,47 @@ export class AppRoutes {
         router.get("/descargar/:filename", verificarToken,(req, res) => 
           archivoController.descargarArchivo(req, res)
         );
+
+
+        const comentarioController = new ComentarioController();
+        router.post("/addComentario",(req,res)=>
+          comentarioController.addComentario(req,res)
+        );
+        router.get("/getComentario",(req,res)=>
+          comentarioController.getComentario(req,res)
+        );
+        router.delete("/deleteComentario/:id", (req, res) =>
+          comentarioController.deleteComentario(req, res)
+        );
+
+        const inventarioController = new InventarioController();
+        router.post("/addInventario",(req,res)=>
+          inventarioController.addInventario(req,res)
+        );
+        router.get("/getInventario",(req,res)=>
+          inventarioController.getInventario(req,res)
+        );
+        router.put("/updateInventario/:id", (req, res) =>
+          inventarioController.updateInventario(req, res)
+        );
+        router.delete("/deleteInventario/:id", (req, res) =>
+          inventarioController.deleteInventario(req, res)
+        );
+
+        const controlOperativo = new ControlOperativoController();
+        router.post("/addControlOperativo", (req, res) =>
+          controlOperativo.addControlOperativo(req, res)
+        );
+        router.get("/getControlOperativo", (req, res) =>
+          controlOperativo.getControlOperativo(req, res)
+        );
+        router.put("/updateControlOperativo/:id", (req, res) =>
+          controlOperativo.updateControlOperativo(req, res)
+        );
+        router.delete("/deleteControlOperativo/:id", (req, res) =>
+          controlOperativo.deleteControlOperativo(req, res)
+        );
+        
         return router;
     }
 }
