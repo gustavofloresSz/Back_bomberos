@@ -9,6 +9,7 @@ import { AuthController } from "./controllers/auth.controller";
 import { ComentarioController } from "./controllers/comentario.controller";
 import { InventarioController } from "./controllers/inventario.controller";
 import { ControlOperativoController } from "./controllers/control_operativo.controller";
+import { HectareaController } from "./controllers/hectareas.controller";
 
 export class AppRoutes {
     static get routes():Router{
@@ -117,6 +118,7 @@ export class AppRoutes {
           inventarioController.deleteInventario(req, res)
         );
 
+
         const controlOperativo = new ControlOperativoController();
         router.post("/addControlOperativo", (req, res) =>
           controlOperativo.addControlOperativo(req, res)
@@ -131,6 +133,20 @@ export class AppRoutes {
           controlOperativo.deleteControlOperativo(req, res)
         );
         
+
+        const hectareaController = new HectareaController();
+        router.get("/getHectarea", (req, res) =>
+          hectareaController.getHectarea(req, res)
+        )
+        router.post("/addHectarea", (req, res) =>
+          hectareaController.addHectarea(req, res)
+        )
+        router.put("/updateHectarea/:id", (req, res) =>
+          hectareaController.updateHectarea(req, res)
+        );
+        router.delete("/deleteHectarea/:id", (req, res) =>
+          hectareaController.deleteHectarea(req, res)
+        );
         return router;
     }
 }

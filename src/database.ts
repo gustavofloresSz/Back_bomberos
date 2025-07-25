@@ -6,6 +6,7 @@ import { Archivo } from "./entities/archivo";
 import { Comentario } from "./entities/comentario";
 import { Inventario } from "./entities/inventario";
 import { ControlOperativo } from "./entities/control_operativo";
+import { Hectarea } from "./entities/hectarea";
 
 //conexion con la BD
 export const AppDataSource = new DataSource({
@@ -16,5 +17,14 @@ export const AppDataSource = new DataSource({
     password:'1234root',
     database:'bomberos',
     synchronize:true,
-    entities:[User,Seccion,Envio,Archivo,Comentario,Inventario,ControlOperativo]
- })
+    entities:[
+        User,
+        Seccion,
+        Envio,
+        Archivo,
+        Comentario,
+        Inventario,
+        ControlOperativo,
+        Hectarea
+    ]
+})

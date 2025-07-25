@@ -14,7 +14,7 @@ export class ControlOperativoController {
 
   async addControlOperativo(req: Request, res: Response) {
     try {
-        const {
+      const {
         fecha_fin,
         responsable,
         cuadrillas,
@@ -23,14 +23,9 @@ export class ControlOperativoController {
         distancia_kms,
         material_equipo,
         novedades
-        } = req.body;
+      } = req.body;
 
-        // Obtener fecha actual en formato YYYY-MM-DD
-        const hoy = new Date();
-        const fecha_inicio = hoy.toISOString().split("T")[0]; // ejemplo: "2025-07-23"
-
-        const nuevo = ControlOperativo.create({
-        fecha_inicio,
+      const nuevo = ControlOperativo.create({
         fecha_fin,
         responsable,
         cuadrillas,
@@ -39,15 +34,14 @@ export class ControlOperativoController {
         distancia_kms,
         material_equipo,
         novedades
-        });
+      });
 
-        await nuevo.save();
-        return res.status(201).json(nuevo);
+      await nuevo.save();
+      return res.status(201).json(nuevo);
     } catch (error) {
-        return res.status(500).json({ message: 'Error al crear registro', error });
+      return res.status(500).json({ message: 'Error al crear registro', error });
     }
   }
-
 
   async deleteControlOperativo(req: Request, res: Response) {
     const { id } = req.params;
