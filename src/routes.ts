@@ -132,7 +132,7 @@ export class AppRoutes {
         router.delete("/deleteControlOperativo/:id", (req, res) =>
           controlOperativo.deleteControlOperativo(req, res)
         );
-        
+
 
         const hectareaController = new HectareaController();
         router.get("/getHectarea", (req, res) =>

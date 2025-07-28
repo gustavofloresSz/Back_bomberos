@@ -15,10 +15,10 @@ export class ControlOperativo extends BaseEntity {
   responsable: string;
 
   @Column({ type: 'int', nullable: true })
-  cuadrillas: number;
+  efectivo_total: number;
 
   @Column({ type: 'int', nullable: true })
-  efectivo: number;
+  efectivo_uso: number;
 
   @Column({ nullable: true })
   lugar: string;
@@ -31,4 +31,7 @@ export class ControlOperativo extends BaseEntity {
 
   @Column({ nullable: true })
   novedades: string;
+
+  @Column({nullable: true})
+  tipo: string;
 }

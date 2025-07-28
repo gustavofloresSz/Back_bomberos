@@ -37,6 +37,11 @@ export class Server {
         this.io.emit("mensaje", data);
       });
 
+      socket.on("comentario", (data) => {
+        console.log("Comentario recibido:", data);
+        this.io.emit("comentario", data);
+      });
+
       socket.on("disconnect", () => {
         console.log("Cliente desconectado", socket.id);
       });
