@@ -1,20 +1,16 @@
 import {Request,Response} from "express";
 
 import { Inventario } from "../entities/inventario";
-import { Seccion } from "../entities/seccion";
 
 export class InventarioController {
 
   async getInventario(req: Request, res: Response) {
     try {
       const tipo = req.query.tipo as string;
-
       const whereClause = tipo ? { tipo } : {};
 
       const inventario = await Inventario.find({
         where: whereClause,
-        relations: ['seccion'],
-        
       });
 
       res.json(inventario);
@@ -25,21 +21,14 @@ export class InventarioController {
   }
 
   async addInventario(req: Request, res: Response) {
-    const { nombre, cantidad_total, cantidad_uso, seccionId, tipo } = req.body;
+    const { nombre, cantidad_total, cantidad_uso, tipo } = req.body;
 
     try {
-      const seccion = await Seccion.findOneBy({ id: seccionId });
-
-      if (!seccion) {
-        return res.status(404).json({ message: 'Sección no encontrada' });
-      }
-
       const item = Inventario.create({
         nombre,
         cantidad_total,
         cantidad_uso,
         tipo,
-        seccion
       });
 
       await item.save();
@@ -50,10 +39,9 @@ export class InventarioController {
     }
   }
 
-
   async updateInventario(req: Request, res: Response) {
     const { id } = req.params;
-    const { nombre, cantidad_total, cantidad_uso, seccionId, tipo } = req.body;
+    const { nombre, cantidad_total, cantidad_uso, tipo } = req.body;
 
     try {
       const item = await Inventario.findOneBy({ id: Number(id) });
@@ -62,18 +50,10 @@ export class InventarioController {
         return res.status(404).json({ message: 'Inventario no encontrado' });
       }
 
-      if (seccionId) {
-        const seccion = await Seccion.findOneBy({ id: seccionId });
-        if (!seccion) {
-          return res.status(404).json({ message: 'Sección no encontrada' });
-        }
-        item.seccion = seccion;
-      }
-
       item.nombre = nombre ?? item.nombre;
       item.cantidad_total = cantidad_total ?? item.cantidad_total;
       item.cantidad_uso = cantidad_uso ?? item.cantidad_uso;
-      item.tipo = tipo ?? item.tipo; // nuevo campo editable
+      item.tipo = tipo ?? item.tipo;
 
       await item.save();
       res.json(item);

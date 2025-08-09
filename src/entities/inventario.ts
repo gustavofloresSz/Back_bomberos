@@ -1,5 +1,4 @@
-import { BaseEntity, Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
-import { Seccion } from "./seccion";
+import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
 export class Inventario extends BaseEntity {
@@ -17,9 +16,6 @@ export class Inventario extends BaseEntity {
 
   @Column({nullable: true})
   tipo: string;
-
-  @ManyToOne(() => Seccion, seccion => seccion.inventario)
-  seccion: Seccion;
 
   get cantidad_disponible(): number {
     return this.cantidad_total - this.cantidad_uso;
