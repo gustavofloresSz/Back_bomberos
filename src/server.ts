@@ -1,9 +1,12 @@
 import express, { Router } from "express";
 import cors from "cors";
-import { AppDataSource } from "./database";
-
 import http from "http";
 import { Server as SocketIOServer } from "socket.io";
+import { AppDataSource } from "./database";
+
+import dotenv from "dotenv";
+import path from "path";
+dotenv.config();
 
 interface ServerOptions {
   port?: number;
@@ -15,15 +18,16 @@ export class Server {
   private readonly port: number;
   private readonly routes: Router;
   private server = http.createServer(this.app);
-  private io = new SocketIOServer(this.server,{
-    cors:{
-      origin:"http://localhost:4200", //ruta del front
-      methods:["GET","POST"],
-    }
+
+  private io = new SocketIOServer(this.server, {
+    cors: {
+      origin:  '*', 
+      methods: ["GET", "POST"],
+    },
   });
 
-  constructor({ port = 4000, routes }: ServerOptions) {
-    this.port = port;
+  constructor({ port, routes }: ServerOptions) {
+    this.port = port || Number(process.env.PORT) || 4000;
     this.routes = routes;
     this.configureSocketEvents();
   }
@@ -52,12 +56,13 @@ export class Server {
     this.app.use(cors());
     this.app.use(express.json());
     this.app.use(express.urlencoded({ extended: true }));
-    this.app.use(this.routes);
-
+    this.app.use(express.static(path.join(__dirname, '..', 'public')))
+    this.app.use('/api',this.routes);
+    this.app.get('/*', (req, res) => { res.sendFile(path.join(__dirname, '..', 'public', 'index.html'))})
     try {
       await AppDataSource.initialize();
 
-      this.server.listen(this.port, '0.0.0.0', () => {
+      this.server.listen(this.port, () => {
         console.log(`Server running with Socket.IO on port ${this.port}`);
       });
     } catch (error) {

@@ -6,6 +6,6 @@ import { Server } from "./server";
 })();
 
 function main() {
-  const server = new Server({ routes: AppRoutes.routes });
+  const server = new Server({ port: Number(process.env.PORT), routes: AppRoutes.routes });
   server.start();
 }

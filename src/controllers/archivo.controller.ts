@@ -1,11 +1,12 @@
 import { Request, Response } from "express";
 import path from "path";
 import { Archivo } from "../entities/archivo";
-import * as fs from 'fs';
+import * as fs from "fs";
 
+const uploadDir = process.env.UPLOAD_DIR || "uploads";
 
-export class ArchivoController{
-    async descargarArchivo(req: Request, res: Response) {
+export class ArchivoController {
+  async descargarArchivo(req: Request, res: Response) {
     const { filename } = req.params;
     const user = req.user!;
 
@@ -18,6 +19,7 @@ export class ArchivoController{
       if (!archivo) {
         return res.status(404).json({ message: "Archivo no encontrado en base de datos" });
       }
+
       const esReceptor = archivo.envio.receptor.id === user.id;
       const esEmisor = archivo.envio.emisor.id === user.id;
 
@@ -25,7 +27,7 @@ export class ArchivoController{
         return res.status(403).json({ message: "No autorizado para descargar este archivo" });
       }
 
-      const filePath = path.join(__dirname, "..", "..", "uploads", filename);
+      const filePath = path.join(__dirname, "..", "..", uploadDir, filename);
 
       if (!fs.existsSync(filePath)) {
         return res.status(404).json({ message: "Archivo físico no encontrado" });
