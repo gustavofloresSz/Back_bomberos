@@ -56,9 +56,9 @@ export class Server {
     this.app.use(cors());
     this.app.use(express.json());
     this.app.use(express.urlencoded({ extended: true }));
-    this.app.use(express.static(path.join(__dirname, '..', 'public')))
+    this.app.use(express.static(path.join(__dirname, '..', '..', 'public_html')))
     this.app.use('/api',this.routes);
-    this.app.get('/*', (req, res) => { res.sendFile(path.join(__dirname, '..', 'public', 'index.html'))})
+    this.app.get('/*', (req, res) => { res.sendFile(path.join(__dirname, '..', '..', 'public_html', 'index.html'))})
     try {
       await AppDataSource.initialize();
 
